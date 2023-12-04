@@ -1,3 +1,10 @@
+/* 
+ * https://google.github.io/styleguide/cppguide.html#The__define_Guard
+ * All header files should have #define guards to prevent multiple inclusion. 
+ * The format of the symbol name should be <PROJECT>_<PATH>_<FILE>_H_. 
+ */
+#ifndef JSSP_HEADERS_BETTER_DATATYPES_H
+#define JSSP_HEADERS_BETTER_DATATYPES_H
 #include <stdint.h>
 typedef int16_t i16;
 typedef int32_t i32;
@@ -11,3 +18,4 @@ typedef float f32;
 typedef double f64;
 typedef long double f128;
 typedef wchar_t fat_char;
+#endif
