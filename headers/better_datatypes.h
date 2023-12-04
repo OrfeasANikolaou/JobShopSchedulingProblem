@@ -17,5 +17,6 @@ typedef uint8_t u8; // unsigned char
 typedef float f32;
 typedef double f64;
 typedef long double f128;
-typedef wchar_t fat_char;
+typedef char16_t uch16;
+typedef char32_t uch32;
 #endif
