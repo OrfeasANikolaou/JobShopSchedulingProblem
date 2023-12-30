@@ -3,8 +3,8 @@
  * All header files should have #define guards to prevent multiple inclusion. 
  * The format of the symbol name should be <PROJECT>_<PATH>_<FILE>_H_. 
  */
-#ifndef JSSP_HEADERS_BETTER_DATATYPES_H
-#define JSSP_HEADERS_BETTER_DATATYPES_H
+#ifndef JSSP_HEADERS_BETTER_DATATYPES_H_
+#define JSSP_HEADERS_BETTER_DATATYPES_H_
 #include <stdint.h>
 typedef int16_t i16;
 typedef int32_t i32;
@@ -17,6 +17,6 @@ typedef uint8_t u8; // unsigned char
 typedef float f32;
 typedef double f64;
 typedef long double f128;
-typedef char16_t uch16;
-typedef char32_t uch32;
-#endif
+typedef char16_t uch16; // wide chars
+typedef char32_t uch32; // wide chars
+#endif // JSSP_HEADERS_BETTER_DATATYPES_H_
