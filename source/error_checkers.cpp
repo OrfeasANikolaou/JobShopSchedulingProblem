@@ -2,26 +2,21 @@
 #include <fstream>
 #include <cstring>
 #include "../headers/error_checkers.hpp"
-status_code argument_checker(i32 const argc, char const* const  argv[]){
+#include "../headers/better_datatypes.h"
+status_code argument_checker(char const* const filename){
 	
-	// BAD ARGC
-	if (argc != 2){
-		std::cout << "Usage: [PROGRAM] [RELATIVE_FILE_PATH]\n";
-		return status_code::BAD_ARGC;
-	}
-
 	// NO FILE FOUND
 	{
-		std::ifstream f(argv[1]);
-		if (!f.good() || strlen(argv[1]) == 2) { 
+		std::ifstream f(filename);
+		if (!f.good() || strlen(filename) == 2) { 
 			std::cout << "No file found\n";
 			return status_code::NO_FILE; }
 	}
 
 	// FILE NO TXT
 	{
-		u64 sz = strlen(argv[1]);
-		if (strcmp(&argv[1][sz-4], ".txt") != 0){
+		u64 sz = strlen(filename);
+		if (strcmp(&filename[sz-4], ".txt") != 0){
 			std::cout << "File extension must be .txt\n";
 			return status_code::NO_TXT;
 		}

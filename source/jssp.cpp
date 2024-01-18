@@ -3,13 +3,13 @@
 #include <iostream>
 #include <fstream>
 
-jssp::jssp(i32 const argc, char const* const* const argv){
+jssp::jssp(char const* const filename){
 	this->execution_time = NULL;
-	this->execution_order = NULL;
+	this->execution_time = NULL;
 	this->desired_time = NULL;
-	if (argument_checker(argc, argv) != 
+	if (argument_checker(filename) !=
 			status_code::SUCCESS) { exit(1); }
-	this->read_file(argv[1]);	
+	this->read_file(filename);
 }
 jssp::jssp(u64 const& jn, u64 const& mn, 
 					 u64** const& et, u64** const& eo){

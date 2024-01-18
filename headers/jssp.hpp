@@ -5,9 +5,8 @@
 
 struct jssp{
 	public:
-		// constructor which parses a file to read data
-		jssp(i32 const argc, 
-				 char const* const* const argv);
+		// constructor to be called if any other input for filename is desired
+		jssp(char const* const filename);
 		// constructor given raw data to create problem
 		jssp(u64 const& jn,
 				 u64 const& mn,
