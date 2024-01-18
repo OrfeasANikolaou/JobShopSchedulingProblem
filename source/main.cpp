@@ -1,7 +1,14 @@
 #include "../headers/better_datatypes.h"
 #include "../headers/jssp.hpp"
+#include "../headers/helpers.hpp"
+#include <cstdlib>
 i32 main(void){ 
-	jssp job("data/la01.txt");	
-	job.print();	
+	char const* selection = select_filename(); 
+	jssp job(selection);
+	job.askhsh1();	
+ // job.print(); for testing
+
+	// this is so stupid wtf?
+	free((void*)selection);
 	return 0;
 }

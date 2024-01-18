@@ -1,7 +1,7 @@
 #include "../headers/error_checkers.hpp"
 #include "../headers/jssp.hpp"
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 jssp::jssp(char const* const filename){
 	this->execution_time = NULL;
@@ -53,6 +53,19 @@ void jssp::print(void) const{
 		std::cout << std::endl;
 	}
 
+}
+void jssp::askhsh1(void) const{
+	std::cout << "Select what job you want to see times and machine order: " << std::endl;
+	for (u64 i = 0; i < this->job_number; ++i){
+		std::cout << i + 1 << ' ';
+	}
+	std::cout << std::endl;
+	u64 x;
+	do{
+		std::cin >> x;
+	}while(x < 1 || x > this->job_number);
+	this->print_times(x);
+	this->print_machine_order(x);
 }
 void jssp::calc_desired_time(double param){
 	
@@ -112,4 +125,18 @@ void jssp::allocate(void){
 	}
 	this->desired_time = (u64*)malloc(sizeof(u64) * this->job_number);
 }
-
+void jssp::print_times(u64 const job) const{
+	std::cout << "Due time for job " << job << ": " << this->desired_time[job-1] << std::endl;
+	for (u64 i = 0; i < this->machine_number; ++i){
+		std::cout << "Time for machine " << i + 1 << " for this job: " << this->execution_time[job-1][i]
+			<< std::endl;
+	}
+}
+void jssp::print_machine_order(u64 const job) const{
+	std::cout << "Execution order: ";
+	for (u64 i = 0; i < this->machine_number; ++i){
+		std::cout << this->execution_order[job-1][i] << ' ';
+	}
+	std::cout << std::endl;
+	
+}

@@ -1,6 +1,5 @@
 #ifndef JSSP_HEADERS_HELPERS_HPP_
 #define JSSP_HEADERS_HELPERS_HPP_
-
 #include "better_datatypes.h"
 
 struct jssp{
@@ -16,6 +15,7 @@ struct jssp{
 		~jssp();
 		// prints job number, machine number, desired times, and raw array data
 		void print(void) const;
+		void askhsh1(void) const;
 	private:
 		u64 job_number;
 		u64 machine_number;
@@ -29,6 +29,8 @@ struct jssp{
 		void allocate(void);
 		// calculates desired time based on summation of execution time per job
 		void calc_desired_time(double const param = 1.3);
+		void print_times(u64 const job) const;
+		void print_machine_order(u64 const job) const;
 };
 
 #endif // JSSP_HEADERS_HELPERS_HPP_
