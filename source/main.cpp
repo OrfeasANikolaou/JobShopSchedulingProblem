@@ -1,11 +1,7 @@
-#include <fstream>
-#include <iostream>
 #include "../headers/better_datatypes.h"
-#include "../headers/error_checkers.hpp"
-#include "../headers/helpers.hpp"
+#include "../headers/jssp.hpp"
 i32 main(i32 argc, char* argv[]){ // main parameter types must be int and char**
-	JSSP::handle_args(argc, argv);
-	
-	
+	jssp job(argc, argv);	
+	job.print();	
 	return 0;
 }
