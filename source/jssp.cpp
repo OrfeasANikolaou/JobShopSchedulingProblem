@@ -2,6 +2,7 @@
 #include "../headers/jssp.hpp"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 jssp::jssp(char const* const filename){
 	this->execution_time = NULL;
@@ -11,6 +12,7 @@ jssp::jssp(char const* const filename){
 			status_code::SUCCESS) { exit(1); }
 	this->read_file(filename);
 }
+
 jssp::jssp(u64 const& jn, u64 const& mn, 
 					 u64** const& et, u64** const& eo){
 	this->job_number = jn; this->machine_number = mn;
@@ -23,6 +25,7 @@ jssp::jssp(u64 const& jn, u64 const& mn,
 		}
 	this->calc_desired_time();
 }
+
 jssp::~jssp(){
 	for (u64 i = 0; i < this->job_number; ++i){
 		free(this->execution_time[i]);
@@ -32,6 +35,7 @@ jssp::~jssp(){
 	free(this->execution_order);
 	free(this->desired_time);
 }
+
 void jssp::print(void) const{
 	std::cout << "Job number: " << this->job_number << std::endl <<
 							 "Machine number: " << this->machine_number << std::endl;
@@ -52,8 +56,8 @@ void jssp::print(void) const{
 		}
 		std::cout << std::endl;
 	}
-
 }
+
 void jssp::askhsh1(void) const{
 	std::cout << "Select what job you want to see times and machine order: " << std::endl;
 	for (u64 i = 0; i < this->job_number; ++i){
@@ -67,8 +71,23 @@ void jssp::askhsh1(void) const{
 	this->print_times(x);
 	this->print_machine_order(x);
 }
-void jssp::calc_desired_time(double param){
-	
+
+void jssp::askhsh2(void){
+	u64 sel = this->select();
+	switch (sel){
+		case 0:
+			this->print_sorted_due();
+			break;
+	//	case 1:
+	//		this->print_sorted_total();
+	//		break;
+	//	case 2:
+	//		this->print_sorted_machine_total_work_time();
+	//		break;
+	}
+}
+
+void jssp::calc_desired_time(double param){	
 	for (u64 i = 0; i < this->job_number; ++i){
 		this->desired_time[i] = 0;
 		for (u64 j = 0; j < this->machine_number; ++j){
@@ -77,11 +96,11 @@ void jssp::calc_desired_time(double param){
 		this->desired_time[i] *= param;
 	}
 }
+
 void jssp::read_file(char const* const filename){
 	std::ifstream f(filename);
 	f >> this->job_number;
 	f >> this->machine_number;
-	
 	u64 const max_count = (job_number * machine_number) << 1;	
 	u64 cnt = 0;
 	u64 temp;	
@@ -93,7 +112,6 @@ void jssp::read_file(char const* const filename){
 	f.seekg(0, f.beg);
 	f >> temp; f >> temp;
 	if (cnt != max_count) { f >> temp; } 
-	
 	this->allocate();	
 	auto fun	= [&](u64** arr)->void {
 		for (u64 i = 0; i < this->job_number; ++i){
@@ -102,7 +120,6 @@ void jssp::read_file(char const* const filename){
 			}
 		}	
 	};
-
 	// gets execution_time for problem
 	fun(execution_time);
 	// gets execution_order for problem
@@ -110,6 +127,7 @@ void jssp::read_file(char const* const filename){
 	// get desired time default parameter is 1.3
 	this->calc_desired_time();
 }
+
 void jssp::allocate(void){
 	// ξέρω ότι κανονικά πρέπει να κάνω NULL checks κτλ και αν είναι κάποιος δείκτης NULL
 	// τότε κάνω free όλα τα προηγούμενα και κάνω exit(1)/exit(error_code) το πρόγραμμα
@@ -125,6 +143,7 @@ void jssp::allocate(void){
 	}
 	this->desired_time = (u64*)malloc(sizeof(u64) * this->job_number);
 }
+
 void jssp::print_times(u64 const job) const{
 	std::cout << "Due time for job " << job << ": " << this->desired_time[job-1] << std::endl;
 	for (u64 i = 0; i < this->machine_number; ++i){
@@ -132,11 +151,42 @@ void jssp::print_times(u64 const job) const{
 			<< std::endl;
 	}
 }
+
 void jssp::print_machine_order(u64 const job) const{
 	std::cout << "Execution order: ";
 	for (u64 i = 0; i < this->machine_number; ++i){
 		std::cout << this->execution_order[job-1][i] << ' ';
 	}
 	std::cout << std::endl;
-	
 }
+
+u64 jssp::select(void) const{
+	std::cout << "Choose sorting order: " << std::endl;
+	std::cout << "1. Sort by job due date.\n" 
+						<< "2. Sort by job total work time.\n"
+						<< "3. Sort by machine totaling work time\n";
+	u64 ret;
+	do{
+		std::cin >> ret;
+	}while(ret < 1 || ret > 3);
+	return ret - 1; // for array [0..2]
+}
+
+void jssp::print_sorted_due(void){
+	 u64* t = (u64*)malloc(sizeof(u64) * this->job_number);
+	for (u64 i = 0; i < this->job_number; ++i){
+			t[i] = this->desired_time[i];
+	}
+	std::sort(&t[0], &t[this->job_number-1]);
+	for (u64 i = 0; i < this->job_number; ++i) { std::cout << t[i] << ' '; } std::cout << std::endl;
+	free(t);
+}
+
+void jssp::print_sorted_total(void){
+
+}
+
+void print_sorted_machine_total_work_time(void){
+
+}
+

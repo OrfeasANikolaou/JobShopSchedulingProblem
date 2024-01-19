@@ -16,6 +16,7 @@ struct jssp{
 		// prints job number, machine number, desired times, and raw array data
 		void print(void) const;
 		void askhsh1(void) const;
+		void askhsh2(void);
 	private:
 		u64 job_number;
 		u64 machine_number;
@@ -31,6 +32,10 @@ struct jssp{
 		void calc_desired_time(double const param = 1.3);
 		void print_times(u64 const job) const;
 		void print_machine_order(u64 const job) const;
+		u64 select(void) const;
+		void print_sorted_due(void);
+		void print_sorted_total(void);
+		void print_sorted_machine_total_work_time(void);
 };
 
 #endif // JSSP_HEADERS_HELPERS_HPP_
