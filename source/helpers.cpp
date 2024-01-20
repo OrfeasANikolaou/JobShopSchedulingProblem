@@ -6,7 +6,7 @@
 char const* const select_filename(void){
 	std::cout << "Choose a file to use as a job stop scheduling problem \n" << 
 							 "All of them are inside the data/ folder\n" << 
-							 "Press one of the following numbers to pick:\n";
+							 "Choose one of the following JSS problems to pick from:\n";
 	char* ret = (char* )malloc(sizeof(char) * 14);
 	u64 x;
 	std::string files[8] = {"la01",
