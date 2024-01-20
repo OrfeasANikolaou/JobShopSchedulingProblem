@@ -1,0 +1,45 @@
+----------------------------------------------------------------------------------|---
+|																	jssp																						|
+|---------------------------------------------------------------------------------|---
+| - job_number : u64																															|						
+| - machine_number 	: u64																													|						
+| - execution_time 	: u64[job_number][machine_number]															|							
+| - execution_order : u64[job_number][machine_number]															|									
+| - desired_time 		: u64[job_number}																							|					
+|---------------------------------------------------------------------------------|----	
+| + <<constructor>> jssp(filename : char const* const)														|									
+| + <<constructor>> jssp(jn : <<reference>>u64 const,															|						
+|												 mn : <<reference>>u64 const,															|						
+|												 et : <<reference>>u64[job_number][machine_number] const	|					
+|												 eo : <<reference>>u64[job_number][machine_number] const)	|			
+| + <<destructor>> ~jssp()																												|						
+| + print(void) 																	: void													|				
+| + askhsh1(void) 																: void													|					
+| + askhsh2(void) 																: void													|					
+| + askhsh3(void) 																: void													|				
+| - read_file(filename : char const* const) 			: void													|					
+| - allocate(void) 																: void													|				
+| - calc_desired_time(param = 1.3 : double const) : void													|		
+| - print_times(job : u64 const) const 						: void													|					
+| - print_machine_order(job : u64 const) const 		: void													|					
+| - select(void) const 												 		: u64														|						
+| - print_sorted_due(void) 										 		: void													|						
+| - print_sorted_total(void) 									 		: void													|													
+| - print_sorted_machine_total_work_time(void) 		: void													|																					
+|---------------------------------------------------------------------------------|-----
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
