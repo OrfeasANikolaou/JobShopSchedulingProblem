@@ -3,13 +3,13 @@
 #include "../headers/helpers.hpp"
 #include <cstdlib>
 i32 main(void){ 
-	char const* selection = select_filename(); 
-	jssp job(selection);
+	char const* filename= select_filename(); 
+	jssp job(filename);
 	job.askhsh1();	
  	job.askhsh2();
-	// job.print(); for testing
-
+	// job.print(); 
+		
 	// this is so stupid wtf?
-	free((void*)selection);
+	free((void*)filename);
 	return 0;
 }

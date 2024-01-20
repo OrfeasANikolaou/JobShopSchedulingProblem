@@ -36,12 +36,12 @@ jssp::~jssp(){
 	free(this->desired_time);
 }
 
-void jssp::print(void) const{
+void jssp::print(void){
 	std::cout << "Job number: " << this->job_number << std::endl <<
 							 "Machine number: " << this->machine_number << std::endl;
 	std::cout << "------DESIRED TIME------\n";
 	for (u64 i = 0; i < job_number; ++i){
-		std::cout << "Desired time for job[" << i << "]: " << this->desired_time[i] << std::endl;
+		std::cout << "Desired time for job[" << i+1 << "]: " << this->desired_time[i] << std::endl;
 	}
 	std::cout << "------------------------\n";
 	for (u64 i = 0; i < job_number; ++i){
@@ -58,7 +58,7 @@ void jssp::print(void) const{
 	}
 }
 
-void jssp::askhsh1(void) const{
+void jssp::askhsh1(void){
 	std::cout << "Select what job you want to see times and machine order: " << std::endl;
 	for (u64 i = 0; i < this->job_number; ++i){
 		std::cout << i + 1 << ' ';
@@ -78,13 +78,17 @@ void jssp::askhsh2(void){
 		case 0:
 			this->print_sorted_due();
 			break;
-	//	case 1:
-	//		this->print_sorted_total();
-	//		break;
-	//	case 2:
-	//		this->print_sorted_machine_total_work_time();
-	//		break;
+		case 1:
+			this->print_sorted_total();
+			break;
+		case 2:
+			this->print_sorted_machine_total_work_time();
+			break;
 	}
+}
+
+void jssp::askhsh3(void){
+
 }
 
 void jssp::calc_desired_time(double param){	
@@ -173,20 +177,56 @@ u64 jssp::select(void) const{
 }
 
 void jssp::print_sorted_due(void){
-	 u64* t = (u64*)malloc(sizeof(u64) * this->job_number);
+	u64* t = (u64*)malloc(sizeof(u64) * this->job_number);
+	u64* pos = (u64*)malloc(sizeof(u64) * this->job_number); 
 	for (u64 i = 0; i < this->job_number; ++i){
 			t[i] = this->desired_time[i];
+			pos[i] = i;
 	}
-	std::sort(&t[0], &t[this->job_number-1]);
-	for (u64 i = 0; i < this->job_number; ++i) { std::cout << t[i] << ' '; } std::cout << std::endl;
+	std::sort(&pos[0], &pos[this->job_number], [&t](u64 a, u64 b){ return t[a] < t[b]; });
+	std::sort(&t[0], &t[this->job_number]); 
+	for (u64 i = 0; i < this->job_number; ++i){ 
+		std::cout << "Due time for job n." << pos[i]+1 << ": " << t[i] << std::endl; 
+	} 
 	free(t);
+	free(pos);
 }
 
 void jssp::print_sorted_total(void){
-
+	u64* t = (u64*)malloc(sizeof(u64) * this->job_number);
+	u64* pos = (u64*)malloc(sizeof(u64) * this->job_number);
+	for (u64 i = 0; i < this->job_number; ++i){
+		t[i] = 0;
+		pos[i] = i;
+		for (u64 j = 0; j < this->machine_number; ++j){
+			t[i] += this->execution_time[i][j];
+		}
+	}
+	std::sort(&pos[0], &pos[this->job_number], [&t](u64 a, u64 b){ return t[a] < t[b]; });
+	std::sort(&t[0], &t[this->job_number]);
+	for (u64 i = 0; i < this->job_number; ++i) { 
+		std::cout << "Total work time for job n." << pos[i]+1 << ": " <<  t[i] << std::endl; 
+	} 
+	free(t);
+	free(pos);
 }
 
-void print_sorted_machine_total_work_time(void){
-
+void jssp::print_sorted_machine_total_work_time(void){
+	u64* t = (u64*)malloc(sizeof(u64) * this->machine_number);
+	u64* pos = (u64*)malloc(sizeof(u64) * this->machine_number);
+	for (u64 i = 0; i < this->machine_number; ++i){
+		t[i] = 0;
+		pos[i] = i;
+		for (u64 j = 0; j < this->job_number; ++j){
+			t[i] += this->execution_time[j][i];
+		}
+	}
+	std::sort(&pos[0], &pos[this->machine_number], [&t](u64 a, u64 b){ return t[a] < t[b]; });
+	std::sort(&t[0], &t[this->machine_number]);
+	for (u64 i = 0; i < this->machine_number; ++i){
+		std::cout << "Total work time for machine n." << pos[i]+1 << ": " << t[i] << std::endl;
+	}
+	free(t);
+	free(pos);
 }
 
