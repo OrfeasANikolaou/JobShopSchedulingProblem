@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-
+#include <sstream>
 jssp::jssp(char const* const filename){
 	this->execution_time = NULL;
 	this->execution_time = NULL;
@@ -99,7 +99,8 @@ void jssp::askhsh3(void){
 						<< "------------"<< std::endl;
 	std::cout << "---------------------------------------------------------------" << std::endl;
 	std::cout << "Each column on the terminal are 10 time units." << std::endl 
-						<< "Numbers after the semicoln are each job," << std::endl
+						<< "Each number is a job, in the case it takes more than 10 units," << std::endl
+						<< "it will be followed by a dot. Time will be rounded up. " 				<< std::endl
 					 	<< "which will be rounded to the upper limit." << std::endl
 						<< "(i.e. a job which takes 31 time units will be displayed as 40)." << std::endl;
 	std::cout << "---------------------------------------------------------------" << std::endl;	
@@ -126,23 +127,26 @@ void jssp::askhsh3(void){
 	//	std::cout << std::endl;
 	//	}	
 
-	/* my version after chatgpt version */
-	// reminder execution_time/order are arr[job_number][machine_number]
-	for (u64 i = 0; i < this->machine_number; ++i){
-		std::cout << "Machine " << i+1 << ": ";
-		for (u64 j = 0; j < this->job_number; ++j){
-			u64 job_running = this->execution_order[j][i];
-			// job_running 1..n, array requires 0..n-1
-			u64 time_required = this->execution_time[job_running-1][i]; 
-			// k += 10, every letter counts as 10 time units, to not bloat the screen
-			for (u64 k = 0; k < time_required; k+=10){
-				std::cout << job_running;
+	std::stringstream* ss = new std::stringstream[this->machine_number];
+	for (u64 j = 0; j < this->job_number; ++j){
+		for (u64 a = 0 ; a < this->job_number; ++a){
+			for (u64 i = 0; i < this->machine_number; ++i){
+				if (this->execution_order[a][i]-1 == j-i) {
+					u64 time_required = this->execution_time[a][i];
+					ss[i] << a+1; for (u64 k = 1; k < time_required; k+=10) {ss[i] << '.';}
+				}
 			}
 		}
-		std::cout << std::endl;
 	}
-}
+	for (u64 i = 0; i < this->machine_number; ++i){
+		std::cout << "Machine " << i+1 << ": ";
+		std::cout << ss[i].str() << std::endl;
+	}
 
+
+		
+		
+}
 void jssp::calc_desired_time(double param){	
 	for (u64 i = 0; i < this->job_number; ++i){
 		this->desired_time[i] = 0;
