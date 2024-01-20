@@ -128,15 +128,16 @@ void jssp::askhsh3(void){
 
 	/* my version after chatgpt version */
 	// reminder execution_time/order are arr[job_number][machine_number]
+			for (u64 a = 0; a < this->job_number; ++a) for (u64 b = 0; b < this->machine_number; ++b) { std::cout << execution_order[a][b] << ' '; }
 	for (u64 i = 0; i < this->machine_number; ++i){
 		std::cout << "Machine " << i+1 << ": ";
 		for (u64 j = 0; j < this->job_number; ++j){
+			u64 job_running = this->execution_order[j][i];
 			// job_running 1..n, array requires 0..n-1
-			u64 job_running = this->execution_order[j][i] - 1;
-			u64 time_required = this->execution_time[job_running][i]; 
+			u64 time_required = this->execution_time[job_running-1][i]; 
 			// k += 10, every letter counts as 10 time units, to not bloat the screen
 			for (u64 k = 0; k < time_required; k+=10){
-				std::cout << job_running + 1;
+				std::cout << job_running;
 			}
 		}
 		std::cout << std::endl;
@@ -244,7 +245,6 @@ void jssp::print_sorted_due(void){
 	free(pos);
 }
 
-
 void jssp::print_sorted_total(void){
 	u64* t = (u64*)malloc(sizeof(u64) * this->job_number);
 	u64* pos = (u64*)malloc(sizeof(u64) * this->job_number);
@@ -264,7 +264,6 @@ void jssp::print_sorted_total(void){
 	free(t);
 	free(pos);
 }
-
 
 void jssp::print_sorted_machine_total_work_time(void){
 	u64* t = (u64*)malloc(sizeof(u64) * this->machine_number);
