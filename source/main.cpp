@@ -8,6 +8,7 @@ i32 main(void){
 	free((void*)filename);
 		job->askhsh1();
 		job->askhsh2();
+		// doesn't work as intended :(
 		job->askhsh3(); 
 	 
 	// for testing only

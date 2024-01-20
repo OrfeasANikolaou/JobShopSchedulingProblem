@@ -142,11 +142,12 @@ void jssp::askhsh3(void){
 		std::cout << "Machine " << i+1 << ": ";
 		std::cout << ss[i].str() << std::endl;
 	}
+	delete[] ss;				
 
-
-		
-		
 }
+	
+		
+
 void jssp::calc_desired_time(double param){	
 	for (u64 i = 0; i < this->job_number; ++i){
 		this->desired_time[i] = 0;
