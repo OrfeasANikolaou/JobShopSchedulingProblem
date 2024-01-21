@@ -172,12 +172,10 @@ void jssp::read_file(char const* const filename){
 	// for some reason cnt was one more than expected
 	// 3 ΏΡΕΣ ΚΑΙ Η ΜΌΝΗ ΑΛΛΑΓΉ ΠΟΥ ΈΠΡΕΠΕ ΝΑ ΚΆΝΩ ΉΤΑΝ ΝΑ ΒΆΛΩ ΈΝΑ --cnt
 	--cnt; 
-	std::cout << "cnt: " << cnt << std::endl 
-						<< "max: " << max_count << std::endl;
 	f.clear();
 	f.seekg(0, f.beg);
 	f >> temp; f >> temp;
-	if (cnt != max_count) { std::cout << (cnt != max_count); f >> temp; } 
+	if (cnt != max_count) { f >> temp; } 
 	this->allocate();	
 	auto fun	= [&](u64** arr)->void {
 		for (u64 i = 0; i < this->job_number; ++i){
